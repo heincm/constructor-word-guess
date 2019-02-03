@@ -1,6 +1,5 @@
-let log = console.log
-
-let Letter = function (string) { debugger;
+// constructor for letters
+let Letter = function (string) {
     this.string = string;
     this.boolean = false;
     this.guessed = function () {
@@ -16,3 +15,5 @@ let Letter = function (string) { debugger;
         }
     }
 };
+
+module.exports = Letter;
