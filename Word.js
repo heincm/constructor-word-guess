@@ -8,11 +8,12 @@ let Word = function (guessWord) {
     }
 }
 
-Word.prototype.returnString = function () { debugger;
+Word.prototype.returnString = function () {
+    let secondArray = [];
     for (let g = 0; g < this.array.length; g++) {
-        console.log(this.array[g].guessed());
+        secondArray.push(this.array[g].guessed());
     }
-
+    console.log(secondArray.join(" "))
 };
 
 let hello = new Word("hello");
