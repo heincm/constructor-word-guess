@@ -19,7 +19,7 @@ function checkRound() {
 
 function playRound() {
   let currentWord = new Word(wordBank[randNum])
-  console.log(currentWord); debugger;  
+  console.log(currentWord);  
   currentWord.returnString();
   inquirer
     .prompt([
@@ -30,16 +30,10 @@ function playRound() {
       }
     ])
     .then(answers => {
-      debugger;
       currentWord.checkLetter(answers.q1)
       currentWord.returnString();
       checkRound();
     });
-}
-
-function displayLetters() {
-
-
 }
 
 checkRound();
