@@ -14,7 +14,12 @@ let currentWord;
 
 function checkRound() {
   if (remainingLetters === 0) {
-    console.log("Winner!")
+    for (let e = 0; e < correctGuesses.length; e++) {
+      currentWord.checkLetter(correctGuesses[e]);
+    };
+  currentWord.returnString();
+    console.log(chalk.green.bold("Winner! \nWinner! \nWinner!"));
+    wordBank.splice(wordBank.indexOf(currentWord), 1);
     startGame();
   } else if (remainingGuesses === 0) {
     console.log(chalk.red.bold.inverse("game over"))
@@ -34,7 +39,7 @@ function startGame() {
     }
   ])
     .then(answers => {
-      if (answers.start === "New Game"){
+      if (answers.start === "New Game") {
         newRound();
       } else {
         process.exit();
@@ -52,14 +57,12 @@ function newRound() {
 }
 
 function playRound() {
-
   if (correctGuesses.length > 0) {
     for (let q = 0; q < correctGuesses.length; q++) {
       currentWord.checkLetter(correctGuesses[q]);
     };
   }
   currentWord.returnString();
-
   inquirer
     .prompt([
       {
@@ -73,8 +76,11 @@ function playRound() {
         if (currentWord.guessWord.includes(answers.q1)) {
           correctGuesses.push(answers.q1);
           console.log(chalk.green("Correct-a-mundo, broski!"));
-          remainingLetters--;
-          console.log(remainingLetters)
+          for (let n = 0; n < currentWord.guessWord.length; n++) {
+            if (answers.q1 == currentWord.guessWord[n]) {
+              remainingLetters--;
+            }
+          };
         } else {
           remainingGuesses--;
           if (remainingGuesses > 0) {
