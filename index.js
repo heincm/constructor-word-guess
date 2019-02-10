@@ -6,34 +6,58 @@ let wordBank = ['chainring', 'sprocket', 'clips', 'saddle', 'handlebars', 'draft
   'derailleur', 'crankarm', 'frame', 'helmet', 'peloton', 'presta', 'roadie', 'schrader', 'spokes',
   'stem', 'tubeless', 'wheelie', 'flat', 'aero',]
 
-let randNum = Math.floor(Math.random() * wordBank.length) + 1;
-let remainingGuesses = 10;
-let correctGuesses = [];
-let allGuesses = [];
+let remainingGuesses;
+let correctGuesses;
+let allGuesses;
 let remainingLetters;
+let currentWord;
 
 function checkRound() {
-  if (remainingLetters === 0){
+  if (remainingLetters === 0) {
     console.log("Winner!")
-    process.exit();
-  }
-  if (remainingGuesses === 0) {
+    startGame();
+  } else if (remainingGuesses === 0) {
     console.log(chalk.red.bold.inverse("game over"))
+    startGame();
   } else {
     playRound();
   }
 };
 
+function startGame() {
+  inquirer.prompt([
+    {
+      name: "start",
+      type: "list",
+      message: "What would you like to do?",
+      choices: ["New Game", "Exit"]
+    }
+  ])
+    .then(answers => {
+      if (answers.start === "New Game"){
+        newRound();
+      } else {
+        process.exit();
+      }
+    });
+}
 
+function newRound() {
+  currentWord = new Word(wordBank[Math.floor(Math.random() * wordBank.length)]);
+  remainingGuesses = 10;
+  correctGuesses = [];
+  allGuesses = [];
+  remainingLetters = currentWord.guessWord.length;
+  playRound();
+}
 
-function playRound() { debugger;
-  let currentWord = new Word(wordBank[randNum])
-  remainingLetters = currentWord.guessWord.length
+function playRound() {
 
-  for (let q = 0; q < correctGuesses.length; q++) {
-    currentWord.checkLetter(correctGuesses[q]);
-  };
-
+  if (correctGuesses.length > 0) {
+    for (let q = 0; q < correctGuesses.length; q++) {
+      currentWord.checkLetter(correctGuesses[q]);
+    };
+  }
   currentWord.returnString();
 
   inquirer
@@ -49,8 +73,8 @@ function playRound() { debugger;
         if (currentWord.guessWord.includes(answers.q1)) {
           correctGuesses.push(answers.q1);
           console.log(chalk.green("Correct-a-mundo, broski!"));
-          console.log("remaining letters", remainingLetters);
           remainingLetters--;
+          console.log(remainingLetters)
         } else {
           remainingGuesses--;
           if (remainingGuesses > 0) {
@@ -67,4 +91,4 @@ function playRound() { debugger;
     });
 }
 
-checkRound();
+startGame();
