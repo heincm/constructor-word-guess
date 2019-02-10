@@ -16,6 +16,10 @@ Word.prototype.returnString = function () {
     console.log(secondArray.join(" "))
 };
 
-let hello = new Word("hello");
-console.log(hello.array)
-hello.returnString();
+Word.prototype.checkLetter = function (any) {
+    for (let h = 0; h < this.array.length; h++) {
+        this.array[h].takeCharacter(any);
+    }
+}
+
+module.exports = Word;
