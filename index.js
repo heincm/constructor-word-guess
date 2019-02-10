@@ -1,6 +1,7 @@
 const Word = require('./Word');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
+const log = console.log
 
 let wordBank = ['chainring', 'sprocket', 'clips', 'saddle', 'handlebars', 'drafting', 'endo', 'fixie',
   'derailleur', 'crankarm', 'frame', 'helmet', 'peloton', 'presta', 'roadie', 'schrader', 'spokes',
@@ -17,12 +18,12 @@ function checkRound() {
     for (let e = 0; e < correctGuesses.length; e++) {
       currentWord.checkLetter(correctGuesses[e]);
     };
-  currentWord.returnString();
-    console.log(chalk.green.bold("Winner! \nWinner! \nWinner!"));
-    wordBank.splice(wordBank.indexOf(currentWord), 1);
+    currentWord.returnString();
+    wordBank.splice(wordBank.indexOf(currentWord.guessWord));
+    log(chalk.green.bold("WINNER! \nWINNER! \nWINNER!"));
     startGame();
   } else if (remainingGuesses === 0) {
-    console.log(chalk.red.bold.inverse("game over"))
+    log(chalk.red("Too many wrong guesses ") + chalk.red.bold.inverse("GAME OVER!"));
     startGame();
   } else {
     playRound();
@@ -45,7 +46,7 @@ function startGame() {
         process.exit();
       }
     });
-}
+};
 
 function newRound() {
   currentWord = new Word(wordBank[Math.floor(Math.random() * wordBank.length)]);
@@ -54,7 +55,7 @@ function newRound() {
   allGuesses = [];
   remainingLetters = currentWord.guessWord.length;
   playRound();
-}
+};
 
 function playRound() {
   if (correctGuesses.length > 0) {
@@ -72,29 +73,32 @@ function playRound() {
       }
     ])
     .then(answers => {
+      if (!isNaN(answers.q1)) {
+        log(chalk.yellow("No numbers, bro!"));
+        playRound();
+        return;
+      }
       if (!allGuesses.includes(answers.q1)) {
         if (currentWord.guessWord.includes(answers.q1)) {
           correctGuesses.push(answers.q1);
-          console.log(chalk.green("Correct-a-mundo, broski!"));
+          log(chalk.green("Correct-a-mundo, broski!"));
           for (let n = 0; n < currentWord.guessWord.length; n++) {
-            if (answers.q1 == currentWord.guessWord[n]) {
+            if (answers.q1 === currentWord.guessWord[n]) {
               remainingLetters--;
-            }
+            };
           };
         } else {
           remainingGuesses--;
           if (remainingGuesses > 0) {
-            console.log(chalk.red("Wrong answer, bruh! Try again! Remaining Guesses: ", remainingGuesses))
-          } else {
-            console.log(chalk.red("Too many wrong guesses"))
+            log(chalk.red("Wrong answer, bruh! Try again! Remaining Guesses:", remainingGuesses));
           }
         }
         allGuesses.push(answers.q1);
       } else {
-        console.log(chalk.blue("You already guessed that letter. Guess another letter"));
+        log(chalk.blue("You already guessed that letter, brosef. Guess another letter."));
       }
       checkRound();
     });
-}
+};
 
 startGame();
