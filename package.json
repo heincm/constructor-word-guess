@@ -1,7 +1,7 @@
 {
   "name": "constructor-word-guess",
   "version": "1.0.0",
-  "description": "",
+  "description": "A CLI bicycle-themed word guess game.",
   "main": "index.js",
   "dependencies": {
     "chalk": "^2.4.2",
