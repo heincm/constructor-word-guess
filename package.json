@@ -16,7 +16,7 @@
     "url": "git+https://github.com/heincm/constructor-word-guess.git"
   },
   "keywords": [],
-  "author": "Chris Hein",
+  "author": "Chris Hein <chris.m.hein@gmail.com> (https://github.com/heincm)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/heincm/constructor-word-guess/issues"
