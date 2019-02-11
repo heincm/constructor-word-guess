@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/heincm/constructor-word-guess.git"
   },
-  "keywords": [],
+  "keywords": ["word guess", "hangman", "homework", "constructor", "game"],
   "author": "Chris Hein <chris.m.hein@gmail.com> (https://github.com/heincm)",
   "license": "ISC",
   "bugs": {
